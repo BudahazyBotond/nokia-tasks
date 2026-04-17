@@ -16,23 +16,23 @@ def get_fee(total_minutes: int):
     if total_minutes//60 >= 1:
         if total_minutes//60 <= 3:
             fee += (total_minutes//60)*300
-            if total_minutes//60 < 3 and total_minutes - (total_minutes//60)*60 > 0 :
-                fee += 300
-                total_minutes = 0
-            elif total_minutes//60 == 3 and total_minutes - (total_minutes//60)*60 > 0:
-                fee += 500
-            total_minutes = 0
+            #if total_minutes//60 < 3 and total_minutes - (total_minutes//60)*60 > 0 :
+            #    fee += 300
+            #    total_minutes = 0
+            #elif total_minutes//60 == 3 and total_minutes - (total_minutes//60)*60 > 0:
+            #    fee += 500
+            #total_minutes = 0
         else:
             fee += 3*300
             total_minutes -= 3*60
             fee += (total_minutes//60)*500
             total_minutes -= (total_minutes//60)*60
-            if total_minutes > 0:
-                fee += 500
-                total_minutes = 0
-    if total_minutes > 0:
-        fee += 300
-        total_minutes = 0
+            #if total_minutes > 0:
+            #    fee += 500
+            #    total_minutes = 0
+    #if total_minutes > 0:
+    #    fee += 300
+    #    total_minutes = 0
     return fee
 
 def get_total_in_minute(date_start: str, date_end: str):
