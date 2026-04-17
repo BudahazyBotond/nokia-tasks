@@ -7,20 +7,17 @@ def do_the_drops(data:list):
         print(min_drops(N, H))
 
 def min_drops(N:int, H:int):
-    if N == 1:
-        return H
-    if H == 0:
-        return 0
-    if H == 1:
-        return 1
+    if H <= 1: return H
+    if N == 1: return H
+    
+    if N == 2:
+        drops = 0
+        floor = 0
+        while H > drops:
+            floor += 1
+            drops += floor
+        return floor
 
-    drops = 0
-    while True:
-        drops += 1
-        if (N * drops) >= H:
-            break
-
-    return drops
 
 def line_parse(line:list):
     for i in range(len(line)):
