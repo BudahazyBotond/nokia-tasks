@@ -1,7 +1,11 @@
 from pathlib import Path
 
 
-
+def check_if_magic_num(num:str):
+    if num[::-1] == num:
+        return True
+    else:
+        return False
 
 def check_for_power(num: str):
     if num.__contains__("^"):
