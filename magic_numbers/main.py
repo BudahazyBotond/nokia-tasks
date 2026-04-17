@@ -25,19 +25,20 @@ def convert_if_even_length(num:str):
     length = len(num)
     chars = list(num)
     for i in range(int(length/2)-1,-1,-1):
-        if num[i] == num[length-1-i]:
+        if chars[i] == chars[length-1-i]:
             continue
-        elif num[i] > num[length-1-i]:
+        elif chars[i] > chars[length-1-i]:
             chars[length-1-i] = chars[i]
             if not i == 0:
                 for j in range(length-i,length):
                     chars[j] = "0"
         else: 
-            chars[i] = str(int(num[i])+1)
+            chars[i] = str(int(chars[i])+1)
             chars[length-1-i] = chars[i]
             if not i == 0:
                 for j in range(length-i,length):
                     chars[j] = "0"
+        #print(list(map(str,chars)))
     num = ''.join(chars)
     return num
 
