@@ -16,7 +16,7 @@ def convert_to_magic_nums(nums:list):
 def convert_if_odd_length(num:str):
     length = len(num)
     chars = list(num)
-    initial_chars = chars
+    initial_chars = chars.copy()
     if length == 1 and chars[0] < "9":
         return str(int(num)+1)
     else:
