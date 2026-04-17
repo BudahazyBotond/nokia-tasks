@@ -6,13 +6,12 @@ def file_fee(data:list):
 
 def get_fee(total_minutes: int):
     fee = 0
-    if total_minutes <= 0:
+    if total_minutes <= 30:
         return fee
     if total_minutes/60/24 >= 1:
         fee += ((total_minutes/60)//24)*10000
         total_minutes -= ((total_minutes/60)//24)*24*60
-    if total_minutes <= 30:
-        total_minutes -= 30
+    total_minutes -= 30
     if total_minutes//60 >= 1:
         if total_minutes//60 <= 3:
             fee += (total_minutes//60)*300
