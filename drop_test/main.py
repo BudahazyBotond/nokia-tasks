@@ -10,13 +10,12 @@ def min_drops(N:int, H:int):
     if H <= 1: return H
     if N == 1: return H
     
-    if N == 2:
-        drops = 0
-        floor = 0
-        while H > drops:
-            floor += 1
-            drops += floor
-        return floor
+    min = H
+    for i in range(1, H+1):
+        drops = int(max(min_drops(N-1, i-1), min_drops(N, H-i)))
+        if drops < min:
+            min = drops
+    return min + 1
 
 
 def line_parse(line:list):
