@@ -2,6 +2,21 @@ from pathlib import Path
 
 
 
+def convert_if_even_length(num:str):
+    length = len(num)
+    for i in range(int(length/2)):
+        chars = list(num)
+        if num[i] == num[length-1-i]:
+            continue
+        elif num[i] > num[length-1-i]:
+            chars[length-1-i] = chars[i]
+        else: 
+
+            chars[i] = str(int(num[i])+1)
+            chars[length-1-i] = chars[i]
+    num = ''.join(chars)
+    return num
+
 
 
 def conver_to_magic_num_if_all_nines(num:str):
@@ -22,7 +37,7 @@ def check_for_power(num: str):
         return int(num)
 
 def main():
-    print(conver_to_magic_num_if_all_nines("9999"))
+    convert_if_even_length("1234")
     data = Path("input.txt").read_text(encoding="utf-8")
     print(data, end="")
 
