@@ -27,23 +27,29 @@ def make_json(path:list):
     for i in range(len(adapters)):
         adapter = adapters[i]
         adapter_json = {
-                "adapter_name" : find_line_in_file(adapter, "Ethernet adapter Ethernet").strip(":"),
-                "description" : find_line_in_file(adapter, "   Description").split(":")[1].strip(),
-                "physical_address" : find_line_in_file(adapter, "   Physical Address").split(":")[1].strip(),
-                "dhcp_enabled" : find_line_in_file(adapter, "   DHCP Enabled").split(":")[1].strip(),
-                "ipv4_address" : find_line_in_file(adapter, "   IPv4 Address").split(":")[1].strip(),
-                "subnet_mask" : find_line_in_file(adapter, "   Subnet Mask").split(":")[1].strip(),
-                "default_gateway" : find_line_in_file(adapter, "   Default Gateway").split(":")[1].strip(),
-                "dns_servers" : find_line_in_file(adapter, "   DNS Servers").split(":")[1].strip()
+                "adapter_name" : find_line_in_file(adapter, "Ethernet adapter Ethernet"),
+                "description" : find_line_in_file(adapter, "   Description"),
+                "physical_address" : find_line_in_file(adapter, "   Physical Address"),
+                "dhcp_enabled" : find_line_in_file(adapter, "   DHCP Enabled"),
+                "ipv4_address" : find_line_in_file(adapter, "   IPv4 Address"),
+                "subnet_mask" : find_line_in_file(adapter, "   Subnet Mask"),
+                "default_gateway" : find_line_in_file(adapter, "   Default Gateway"),
+                "dns_servers" : find_line_in_file(adapter, "   DNS Servers")
         }
         json["adapters"].append(adapter_json)
     return json
 
 def find_line_in_file(adapter:list, to_find:str):
+    i=0
     for line in adapter:
         if line.startswith(to_find):
-            return line
-    return " : "
+            if to_find == "   DNS Servers":
+                return ["".join(line.split(":")[1:]).strip(), ":".join(adapter[i+1].split(":")[1:]).strip()]
+            if to_find == "Ethernet adapter Ethernet":
+                return line.strip(":")
+            return ":".join(line.split(":")[1:]).strip("(Preferred)").strip()
+        i+=1
+    return ""
     
 def dump_list(path:list):
     for line in path:
