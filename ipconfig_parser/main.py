@@ -59,7 +59,7 @@ def find_line_in_file(adapter:list, to_find:str):
         if to_find == "Header":
             if not line.startswith("   "):
                 return line.strip(":")
-        if to_find in line:
+        if to_find in line or to_find[::-1].strip()[::-1] in line:
             if to_find == "   DNS Servers" and adapter[i+1].startswith("                                       "):
                 return [":".join(line.split(":")[1:]).strip(), ":".join(adapter[i+1].split(":")).strip()]
             return ":".join(line.split(":")[1:]).strip("(Preferred)").strip("(D").strip()
