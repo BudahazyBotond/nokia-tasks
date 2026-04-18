@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 def get_adapters(original_path: list):
@@ -14,14 +15,35 @@ def get_adapters(original_path: list):
         adapters.append(current_adapter)
     return adapters
 
-def get_last_adapter(path:list):
-    path = path[::-1]
-    for line in path:
-        if line.split(" ")[:3] == ["Ethernet", "adapter", "Ethernet"]:
-            return line.split(" ")[3:][0].split(":")[0]
+def make_json(path:list):
+    
+    json = {
+        "file_name" : "ipconfig.log",
+        "adapters" : [
+            
+        ]
+    }
+    adapters = get_adapters(path)
+    for i in range(len(adapters)):
+        adapter = adapters[i]
+        adapter_json = {
+                "adapter_name" : find_line_in_file(adapter, "Ethernet adapter Ethernet").strip(":"),
+                "description" : find_line_in_file(adapter, "   Description").split(":")[1].strip(),
+                "physical_address" : find_line_in_file(adapter, "   Physical Address").split(":")[1].strip(),
+                "dhcp_enabled" : find_line_in_file(adapter, "   DHCP Enabled").split(":")[1].strip(),
+                "ipv4_address" : find_line_in_file(adapter, "   IPv4 Address").split(":")[1].strip(),
+                "subnet_mask" : find_line_in_file(adapter, "   Subnet Mask").split(":")[1].strip(),
+                "default_gateway" : find_line_in_file(adapter, "   Default Gateway").split(":")[1].strip(),
+                "dns_servers" : find_line_in_file(adapter, "   DNS Servers").split(":")[1].strip()
+        }
+        json["adapters"].append(adapter_json)
+    return json
 
-def find_line_in_file(path:list, to_find:str):
-    return
+def find_line_in_file(adapter:list, to_find:str):
+    for line in adapter:
+        if line.startswith(to_find):
+            return line
+    return " : "
     
 def dump_list(path:list):
     for line in path:
@@ -38,12 +60,12 @@ def main():
     paths = []
     for path in sorted(Path(".").glob("*.txt")):
         paths.append(path.name)
-    a_path = del_empty_lines(Path(paths[0]).read_text(encoding="utf-8").splitlines())
-    b_path = del_empty_lines(Path(paths[1]).read_text(encoding="utf-8").splitlines())
-    dump_list(get_adapterss(a_path)[0])
-    #dump_list(a_path)
-    #dump_list(b_path)
-
+    for path in paths:
+        with open(path.split(".")[0]+".json", "w") as f:
+            json.dump(make_json(del_empty_lines(Path(path).read_text(encoding="utf-8").splitlines())), f, indent=4)
+        with open(path.split(".")[0]+".json", 'r') as f:
+            data = json.load(f)
+            print(json.dumps(data, indent=2))
 
 if __name__ == "__main__":
     main()
