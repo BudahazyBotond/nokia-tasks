@@ -3,10 +3,10 @@ from pathlib import Path
 def file_fee(data:list):
     print("RENSZAM\tDIJ")
     for line in data:
-        print(f"{parse_line(line)[0]}\t\t{int(get_fee(get_total_in_minute(parse_line(line)[1], parse_line(line)[2])))}")
+        print(f"{parse_line(line)[0]}\t{int(get_fee(get_total_in_minute(parse_line(line)[1], parse_line(line)[2])))}")
         with open("fees.txt", "a", encoding="utf-8") as f:
             f.write("RENSZAM\tDIJ\n")
-            f.write(f"{parse_line(line)[0]}\t\t{int(get_fee(get_total_in_minute(parse_line(line)[1], parse_line(line)[2])))}\n")
+            f.write(f"{parse_line(line)[0]}\t{int(get_fee(get_total_in_minute(parse_line(line)[1], parse_line(line)[2])))}\n")
 
 def get_fee(total_minutes: int):
     fee = 0
